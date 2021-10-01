@@ -14,6 +14,7 @@
     ></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.25.0/babel.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/react-responsive@9.0.0-beta.4/dist/react-responsive.js"></script>
+    <link rel="stylesheet" href="styles.css" />
 
     <title>Rick and Morty</title>
   </head>
@@ -21,7 +22,6 @@
     <div class="app-container">React has not Rendered yet</div>
 
     <script type="text/babel">
-      
       function RickMortyApp() {
         const [chars, setChars] = React.useState([]);
         const [nameQuery, setNameQuery] = React.useState("");
@@ -85,61 +85,36 @@
           setSearchInput("");
           console.log(query);
         }
-        var buttonsStyle = {
-          width: 80,
-          height: 38,
-          padding: 0,
-          margin: 10,
-          borderColor: "#cccccc",
-          borderStyle: "solid",
-          borderWidth: 1.5,
-          backgroundColor: "white",
-          borderRadius: 10,
-        };
 
-        var searchStyle = {
-          width: "40%",
-          margin: 10,
-          padding: 0,
-          height: 35,
-          maxWidth: 800,
-          borderColor: "#cccccc",
-          borderStyle: "solid",
-          borderWidth: 1.5,
-          borderRadius: 10,
-        };
         return (
           <div>
-            <form onSubmit={onClickSearch}>
+            <form className="search-container" onSubmit={onClickSearch}>
               <input
-                style={searchStyle}
+                className="search-text-input"
                 type="text"
                 value={serachInput}
                 onChange={handleChange}
               />
-              <input style={buttonsStyle} type="submit" value="Search" />
+              <div>
+                <input
+                  className="search-buttons"
+                  type="submit"
+                  value="Search"
+                />
+                <button className="search-buttons" onClick={onResetClick}>
+                  Reset
+                </button>
+              </div>
             </form>
-
-            <button style={buttonsStyle} onClick={onResetClick}>
-              Reset
-            </button>
           </div>
         );
       }
 
       function CharacterGrid(props) {
-        var characterGridStyle = {
-          display: "inline-block",
-          textAlign: "center",
-          fontSize: 16,
-          margin: 9,
-          border: "solid #cccccc",
-          borderWidth: "thin",
-        };
         return (
           <div>
             {props.chars.slice(0, 6).map((char) => (
-              <div key={char.id} style={characterGridStyle}>
+              <div key={char.id} className="character-container">
                 <img src={char.image} />
                 <h3>{char.name}</h3>
                 <p>Status: {char.status}</p>
