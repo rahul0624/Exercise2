@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://unpkg.com/react@17/umd/react.development.js"
+      crossorigin
+    ></script>
+    <script
+      src="https://unpkg.com/react-dom@17/umd/react-dom.development.js"
+      crossorigin
+    ></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.25.0/babel.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-responsive@9.0.0-beta.4/dist/react-responsive.js"></script>
+
+    <title>Rick and Morty</title>
+  </head>
+  <body>
+    <div class="app-container">React has not Rendered yet</div>
+
+    <script type="text/babel">
+      
+      function RickMortyApp() {
+        const [chars, setChars] = React.useState([]);
+        const [nameQuery, setNameQuery] = React.useState("");
+
+        function handleQuery(query) {
+          if (query === "") {
+            setNameQuery("");
+          } else {
+            console.log(query + " was queried");
+            setNameQuery("?name=" + query);
+          }
+        }
+
+        React.useEffect(() => {
+          fetch("https://rickandmortyapi.com/api/character/" + nameQuery)
+            .then((response) => response.json())
+            .then((responseData) => {
+              console.log(responseData);
+              console.log(nameQuery);
+              setChars(responseData.results);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }, [nameQuery]);
+
+        var rickMortyAppStyle = {
+          textAlign: "center",
+        };
+
+        return (
+          <div style={rickMortyAppStyle}>
+            <h2>Rick and Morty Characters</h2>
+            <SearchBar onQuery={handleQuery} />
+            <CharacterGrid chars={chars} />
+          </div>
+        );
+      }
+
+      function SearchBar(props) {
+        const [query, setQuery] = React.useState("");
+        const [serachInput, setSearchInput] = React.useState("");
+
+        React.useEffect(() => {
+          props.onQuery(query);
+        }, [query]);
+
+        function onClickSearch() {
+          console.log(event);
+          event.preventDefault();
+          console.log(query);
+          setQuery(serachInput);
+        }
+
+        function handleChange(event) {
+          setSearchInput(event.target.value);
+        }
+
+        function onResetClick() {
+          setQuery("");
+          setSearchInput("");
+          console.log(query);
+        }
+        var buttonsStyle = {
+          width: 80,
+          height: 38,
+          padding: 0,
+          margin: 10,
+          borderColor: "#cccccc",
+          borderStyle: "solid",
+          borderWidth: 1.5,
+          backgroundColor: "white",
+          borderRadius: 10,
+        };
+
+        var searchStyle = {
+          width: "40%",
+          margin: 10,
+          padding: 0,
+          height: 35,
+          maxWidth: 800,
+          borderColor: "#cccccc",
+          borderStyle: "solid",
+          borderWidth: 1.5,
+          borderRadius: 10,
+        };
+        return (
+          <div>
+            <form onSubmit={onClickSearch}>
+              <input
+                style={searchStyle}
+                type="text"
+                value={serachInput}
+                onChange={handleChange}
+              />
+              <input style={buttonsStyle} type="submit" value="Search" />
+            </form>
+
+            <button style={buttonsStyle} onClick={onResetClick}>
+              Reset
+            </button>
+          </div>
+        );
+      }
+
+      function CharacterGrid(props) {
+        var characterGridStyle = {
+          display: "inline-block",
+          textAlign: "center",
+          fontSize: 16,
+          margin: 9,
+          border: "solid #cccccc",
+          borderWidth: "thin",
+        };
+        return (
+          <div>
+            {props.chars.slice(0, 6).map((char) => (
+              <div key={char.id} style={characterGridStyle}>
+                <img src={char.image} />
+                <h3>{char.name}</h3>
+                <p>Status: {char.status}</p>
+                <p>Species: {char.species}</p>
+              </div>
+            ))}
+          </div>
+        );
+      }
+
+      ReactDOM.render(
+        <RickMortyApp />,
+        document.getElementsByClassName("app-container")[0]
+      );
+    </script>
+  </body>
+</html>
