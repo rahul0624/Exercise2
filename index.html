@@ -19,6 +19,7 @@
     <title>Rick and Morty</title>
   </head>
   <body>
+      
     <div class="app-container">React has not Rendered yet</div>
 
     <script type="text/babel">
@@ -117,8 +118,10 @@
               <div key={char.id} className="character-container">
                 <img src={char.image} />
                 <h3>{char.name}</h3>
-                <p>Status: {char.status}</p>
-                <p>Species: {char.species}</p>
+                <div className="character-attributes-container">
+                  <p>Status: {char.status}</p>
+                  <p>Species: {char.species}</p>
+                </div>
               </div>
             ))}
           </div>

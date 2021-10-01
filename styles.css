@@ -28,6 +28,15 @@
     justify-content: center;
 }
 
+.character-attributes-container{
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.character-attributes-container p{
+    margin: 0;
+}
+
 .character-container {
   display: inline-block;
   text-align: center;
